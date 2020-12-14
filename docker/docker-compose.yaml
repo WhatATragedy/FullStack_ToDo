@@ -1,0 +1,35 @@
+version: '3.1'
+   
+services:
+  db:
+    image: "postgres" # use latest official postgres version
+    container_name: todo_postgres
+    env_file:
+      - database.env # configure postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d todo"]
+      interval: 10s
+      timeout: 10s
+      start_period: 10s
+      retries: 10
+  # ui:
+  #   container_name: todo_ui
+  #   image: "todo_ui"
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on: 
+  #     - api
+  #   links: 
+  #     - "db:database"
+  # api:
+  #   container_name: todo_api
+  #   image: "flask-todo"
+  #   ports:
+  #     - "5000:5000"
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+
+    
